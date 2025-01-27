@@ -62,8 +62,10 @@ SELECT *
 	FROM Vendors;
 
 SELECT
-@@
 
+
+-- 1.27.2025
+-- Class demo of #8
 
 
 
