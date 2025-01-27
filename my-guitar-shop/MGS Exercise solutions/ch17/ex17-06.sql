@@ -1,0 +1,13 @@
+USE MyGuitarShop;
+GO
+
+CREATE SCHEMA Admin;
+GO
+
+ALTER SCHEMA Admin TRANSFER dbo.Addresses;
+
+ALTER USER RobertHalliday WITH DEFAULT_SCHEMA = Admin;
+
+GRANT SELECT, UPDATE, INSERT, DELETE, EXECUTE
+ON SCHEMA :: Admin
+TO RobertHalliday;
