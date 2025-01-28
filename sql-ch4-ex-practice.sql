@@ -54,24 +54,39 @@ WHERE Vendors.VendorID = Invoices.VendorID
 ORDER BY VendorName;
 
 --#5
-SELECT VendorName AS Vendor,InvoiceDate AS 'DATE', InvoiceNumber AS 'Number',InvoiceSequence AS '#' ,InvoiceLineItems AS LineItem
-	FROM Vendors,Invoices,InvoiceArchive
-	Join
+SELECT VendorName AS Vendor,InvoiceDate AS 'Date', InvoiceNumber AS 'Number',InvoiceSequence AS '#' ,InvoiceLineItemAmount AS LineItem
+	FROM Vendors V
+	JOIN Invoices I
+	ON I.VendorID=V.VendorID
+	JOIN InvoiceLineItems LI
+	ON LI.InvoiceID=I.InvoiceID
+	ORDER BY Vendor, 'Date','Number','#',LineItem 
+	
 
 SELECT *
 	FROM Vendors;
+SELECT *
+	FROM Invoices;
+SELECT *
+	FROM InvoiceLineItems;
 
-SELECT
+--#6 Write a SELECT statement that returns three columns: VendorID, VendorName, Name--From the Vendors table From the Vendors table--A concatenation of VendorContactFName and VendorContactLName, with a space in between--The result set should have one row for each vendor whose contact has the same first name as another vendor’s contact. 
+--Sort the final result set by Name. Hint: Use a self-join.
 
+SELECT DISTINCT V1.VendorID, V1.VendorName, V1.VendorContactFName +' '+V1.VendorContactLName AS ContactName
+	FROM Vendors V1
+	JOIN Vendors V2
+	ON V1.VendorID<>V2.VendorID
+	AND V1.VendorContactFName=V2.VendorContactFName
+	ORDER BY ContactName
 
--- 1.27.2025
--- Class demo of #8
-
-
-
-
-
-
+--#7  Write a SELECT statement that returns two columns from the GLAccounts table: --AccountNo and AccountDescription. The result set should have one row for each account number that has never been used. --Sort the final result set by AccountNo. Hint: Use an outer join to the InvoiceLineItems table.SELECT G.AccountNo, G.AccountDescription	FROM GLAccounts G	LEFT JOIN InvoiceLineItems LI	ON LI.AccountNo=G.AccountNo	WHERE LI.AccountNo IS NULL	ORDER BY G.AccountNoSELECT *	FROM InvoiceLineItems-- from solution
+SELECT gl.AccountNo, AccountDescription
+FROM GLAccounts gl
+LEFT JOIN InvoiceLineItems li
+  ON gl.AccountNo = li.AccountNo
+WHERE li.AccountNo IS NULL
+ORDER BY gl.AccountNo;
 
 
 
