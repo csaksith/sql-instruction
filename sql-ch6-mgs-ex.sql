@@ -70,6 +70,67 @@ SELECT EmailAddress, MAX(OrderTotal) AS LargestOrder
 			JOIN Orders O ON O.CustomerID=C.CustomerID
 			JOIN OrderItems OI ON OI.OrderID=O.OrderID)
 	GROUP BY EmailAddress
+--#1 again 1.29.2025
+--Write a SELECT statement that returns the same result set as this SELECT
+--statement, but don’t use a join. Instead, use a subquery in a WHERE clause that uses
+--the IN operator.
+SELECT DISTINCT CategoryName
+	FROM Categories C 
+	JOIN Products P 
+	ON C.CategoryID=P.CategoryID
+	ORDER BY CategoryName
+
+SELECT *
+	FROM Products
+SELECT *
+	FROM Categories
+
+SELECT *
+	FROM Products P
+	JOIN Categories C ON C.CategoryID=P.CategoryID
+
+--use a subquery that uses the IN operator instead of JOIN
+-- categories that are in the products tables
+--SUBQUERY
+SELECT DISTINCT CategoryID
+	FROM Products
+--IN OPERATOR
+SELECT DISTINCT CategoryName
+	FROM Categories  
+	WHERE CategoryID IN 
+		(SELECT DISTINCT CategoryID FROM Products)
+	ORDER BY CategoryName
+--#4  
+-- A) JOIN Order -- OrderItems Order -- Customer
+--	  Write a SELECT statement that returns three columns: EmailAddress, OrderID, and the order total for each order.
+--    OrderTotal = SUM(OrderItems Total)
+--	  OrderItems = (ItemPrice-DiscountAmount) * Quantity
+--	  To do this, you can group the result set by the EmailAddress and OrderID columns.
+--    Then, you can calculate the order total from the columns in the OrderItems table.
+SELECT EmailAddress, O.OrderID, SUM(((ItemPrice - DiscountAmount) * Quantity)) AS OrderTotal
+	FROM Orders O
+	JOIN Customers C ON C.CustomerID=O.CustomerID
+	JOIN OrderItems OI ON OI.OrderID=O.OrderID
+	GROUP BY EmailAddress, O.OrderID
+-- B) Write a second SELECT statement that uses the first SELECT statement in its FROM
+--    clause. The main query should return two columns: the customer’s email address and
+--    the largest order for that customer. 
+--    To do this, you can group the result set by the EmailAddress column
+SELECT EmailAddress, MAX(OrderTotal) AS LargestOrder
+FROM (
+	SELECT EmailAddress, O.OrderID, SUM(((ItemPrice - DiscountAmount) * Quantity)) AS OrderTotal
+		FROM Orders O
+		JOIN Customers C ON C.CustomerID=O.CustomerID
+		JOIN OrderItems OI ON OI.OrderID=O.OrderID
+		GROUP BY EmailAddress, O.OrderID
+		) AS OrderTotals
+GROUP BY EmailAddress
+-- must have an alias if there is an aggregate involved
 
 
-
+SELECT TOP 5 *
+	FROM Customers
+SELECT TOP 5 *
+	FROM Orders
+SELECT TOP 5 *
+	FROM OrderItems
