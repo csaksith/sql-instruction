@@ -70,8 +70,8 @@ SELECT DepartmentName, CourseDescription, LastName, FirstName
 	ORDER BY CourseDescription
 
 --#5 Write a SELECT statement that joins the Instructors and Courses tables and
---returns these columns: LastName, FirstName, and CourseDescription.
---Return at least one row for each instructor, even if that instructor isn’t teaching any courses.
+--returns these columns: Lastame, FirstName, and CourseDescription.
+--Return at least one row for each instrumsqctor, even if that instructor isn’t teaching any courses.
 --Sort the result set by LastName and then by FirstName.
 
 SELECT *

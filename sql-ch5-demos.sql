@@ -232,7 +232,12 @@ SELECT gl.AccountDescription, COUNT(*) AS LineItemCount,
 	GROUP BY gl.AccountDescription
 	HAVING COUNT(*) > 1
 	ORDER BY LineItemCount DESC;
---#6Write a SELECT statement that answers the following question:--What is the total amount invoiced for each AccountNo? --Use the ROLLUP operator to include a row that gives the grand total. --Hint: Use the InvoiceLineItemAmount column of the InvoiceLineItems table.SELECT AccountNo, SUM(InvoiceLineItemAmount) AS 'Total Invoice'	FROM InvoiceLineItems
+--#6Write a SELECT statement that answers the following question:
+--What is the total amount invoiced for each AccountNo? 
+--Use the ROLLUP operator to include a row that gives the grand total. 
+--Hint: Use the InvoiceLineItemAmount column of the InvoiceLineItems table.
+SELECT AccountNo, SUM(InvoiceLineItemAmount) AS 'Total Invoice'
+	FROM InvoiceLineItems
 	GROUP BY ROLLUP(AccountNo)
 
 SELECT AccountNo, SUM(InvoiceLineItemAmount) AS LineItemSum
@@ -307,4 +312,18 @@ SELECT VendorName,
 	HAVING COUNT(DISTINCT li.AccountNo) > 1
 	ORDER BY VendorName;
 
---#9 Write a SELECT statement that returns six columns: VendorID--InvoiceDate InvoiceTotal VendorTotal VendorCount VendorAvg-- From the Invoices table From the Invoices table From the Invoices table--The sum of the invoice totals for each vendor The count of invoices for each vendor--The average of the invoice totals for each vendor --The result set should include the individual invoices for each vendorSELECT VendorID, 	   InvoiceDate, 	   InvoiceTotal, 	   SUM(InvoiceTotal) OVER (PARTITION BY VendorID) AS VendorTotal, 	   COUNT(*) OVER (PARTITION BY VendorID) AS VendorCount, 	   AVG(InvoiceTotal) OVER (PARTITION BY VendorID) AS AvgInvoice	FROM Invoices
+--#9 Write a SELECT statement that returns six columns: VendorID
+--InvoiceDate InvoiceTotal VendorTotal VendorCount VendorAvg
+-- From the Invoices table From the Invoices table From the Invoices table
+--The sum of the invoice totals for each vendor The count of invoices for each vendor
+--The average of the invoice totals for each vendor 
+--The result set should include the individual invoices for each vendor
+SELECT VendorID, 
+	   InvoiceDate, 
+	   InvoiceTotal, 
+	   SUM(InvoiceTotal) OVER (PARTITION BY VendorID) AS VendorTotal, 
+	   COUNT(*) OVER (PARTITION BY VendorID) AS VendorCount, 
+	   AVG(InvoiceTotal) OVER (PARTITION BY VendorID) AS AvgInvoice
+	FROM Invoices
+
+
