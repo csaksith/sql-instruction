@@ -39,10 +39,9 @@ SELECT *
 --credits
 INSERT INTO Credit (MovieID, ActorID, Role)
 VALUES
-	(10, 6, 'Elizabeth Sparkle'),
-	(10, 7, 'Sue'),
-	(11, 8, 'Rick Dalton'),
-	(11, 9, 'Cliff Booth'),
-	(12, 10, 'Barbie'),
-	(12, 11, 'Ken');
-
+	(3, 1, 'Elizabeth Sparkle'),
+	(3, 2, 'Sue'),
+	(4, 3, 'Rick Dalton'),
+	(4, 4, 'Cliff Booth'),
+	(5, 5, 'Barbie'),
+	(5, 6, 'Ken');
